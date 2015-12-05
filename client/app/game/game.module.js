@@ -1,3 +1,3 @@
 ;(function(){
-    angular.module('minesweep-r.game', ['ui.router']);
+    angular.module('minesweep-r.game', ['ui.router', 'minesweep-r.randomOrg']);
 }());

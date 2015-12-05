@@ -9,7 +9,13 @@
   var vm = this;
   vm.boardHeight = 9;
   vm.boardWidth = 9;
+<<<<<<< HEAD
+  vm.mineCordinates = '1,5,20,21,22,14,10,40,81';
+  vm.numberOFMines = 10;
+  
+=======
   vm.mineCordinates = [];
+>>>>>>> 74df8416b4e5bb336fa21d9275f0568b395b73eb
   vm.title = "Hello world";
 
   _init();
