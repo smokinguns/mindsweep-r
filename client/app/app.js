@@ -1,3 +1,3 @@
 ;(function(){
-    angular.module('minesweep-r', ['ui.bootstrap', 'ui.router']);
+    angular.module('minesweep-r', ['ui.bootstrap', 'ui.router', 'minesweep-r.player']);
 }());
