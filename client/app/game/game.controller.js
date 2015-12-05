@@ -2,17 +2,27 @@
     angular.module('minesweep-r.game')
         .controller('GameController', GameController);
         
-    
+    GameController.$inject = ['randomOrgApi'];
         
-    function GameController() {
+    function GameController(randomOrgApi) {
 
   var vm = this;
   vm.boardHeight = 9;
   vm.boardWidth = 9;
-  vm.mineCordinates = '1,5,20,21,22,14,10,40,81';
+  vm.mineCordinates = [];
   vm.title = "Hello world";
 
-
+  _init();
+  
+  function _init() {
+    randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, 10)
+      .then(function(result) {
+        vm.mineCordinates = result.data.result.random.data;
+      })
+      .catch(function(reason) {
+        console.debug(reason);
+      });
+  }
 
 
   vm.handleClick = function(x, y) {
@@ -90,9 +100,9 @@
   vm.generateMap = function() {
     resetBoard();
 
-    var mineCordinates = vm.mineCordinates.split(',');
-    for (var n = 0; n < mineCordinates.length; n++) {
-      var cord = getCordinates(mineCordinates[n], vm.boardWidth, vm.boardHeight);
+    // var mineCordinates = vm.mineCordinates.split(',');
+    for (var n = 0; n < vm.mineCordinates.length; n++) {
+      var cord = getCordinates(vm.mineCordinates[n], vm.boardWidth, vm.boardHeight);
       vm.gameBoard[cord.y][cord.x].hasMine = true;
 
     }
