@@ -1,0 +1,58 @@
+ <h1>minesweep-r</h1>
+  <div ng-controller="GameController as gameCtrl">
+    <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;">
+
+    <div class="status">
+      <div style="position: relative;padding: 3px 5px 0px 5px;margin-bottom: 6px;border-top: 2px solid #777;border-left: 2px solid #777;border-bottom: 2px solid #fcfcfc;border-right: 2px solid #fcfcfc;width:144px">
+
+      </div>
+      <div class="face" ng-click="gameCtrl.generateMap()">
+        <img src="https://raw.githubusercontent.com/donaldali/odin-js-jquery/master/minesweeper/assets/images/face/facesmile.gif">
+      </div>
+    </div>
+    <div class="gameboard">
+      <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;">
+        <div style="clear:left" ng-repeat="pieceY in gameCtrl.gameBoard">
+          <div style=" float:left;height:16px;width:16px;" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
+            <div ng-show="!pieceX.clicked" style="position:absolute; height:16px;width:16px;background-image:url('https://raw.githubusercontent.com/donaldali/odin-js-jquery/master/minesweeper/assets/images/board/blank.gif');">
+
+            </div>
+            <span ng-show="pieceX.numberOfSurroundingMines > 0">
+            {{pieceX.numberOfSurroundingMines}}
+            
+          </span>
+            <i ng-show="pieceX.hasMine" class="fa fa-bomb"></i>
+          </div>
+        </div>
+
+
+
+
+
+
+
+      </div>
+
+     
+    </div>
+    </div>
+
+ <div style="clear:both">
+        <label>Height
+          <input type="text" ng-model="gameCtrl.boardHeight" id="height" />
+        </label>
+      </div>
+      <div>
+        <label>Width
+          <input type="text" ng-model="gameCtrl.boardWidth" />
+        </label>
+      </div>
+      <div>
+        <label>Mine Position(s) comma seperated
+          <input type="text" ng-model="gameCtrl.mineCordinates" />
+        </label>
+      </div>
+      <div>
+        <button ng-click="gameCtrl.generateMap()">generate board</button>
+      </div>
+  </div>
