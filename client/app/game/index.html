@@ -5,7 +5,7 @@
     <div class="status">
       <div style="position: relative;padding: 3px 5px 0px 5px;margin-bottom: 6px;border-top: 2px solid #777;border-left: 2px solid #777;border-bottom: 2px solid #fcfcfc;border-right: 2px solid #fcfcfc;width:144px">
         <div class="mines">
-          <img src="/images/number0.gif">
+          <div style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red">{{gameCtrl.numberOfMines | fixedLength:3}}</div>
         </div>
          <div class="face" ng-click="gameCtrl.generateMap()">
         <img src="/images/facesmile.gif">
@@ -50,5 +50,9 @@
           <input type="text" ng-model="gameCtrl.boardWidth" />
         </label>
       </div>
-     
+     <div>
+        <label>Number Of Mines
+          <input type="text" ng-model="gameCtrl.numberOfMines" />
+        </label>
+      </div>
   </div>

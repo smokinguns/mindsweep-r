@@ -2,6 +2,10 @@
    <head>
        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css"/>
        <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+       <style>
+            @font-face { font-family: Digital; src: url('/custom-fonts/LCDATTPhoneTimeDate.ttf'); } 
+
+        </style>
    </head>
    <body data-ng-app="minesweep-r">
        <ui-view>Waiting...</ui-view>
@@ -26,7 +30,8 @@
          <script src="app/core/randomOrg/randomOrg.module.js"></script>
          <script src="app/core/randomOrg/randomOrg.controller.js"></script>
          <script src="app/core/randomOrg/randomOrg.api.js"></script>
-         
+         <script src="app/core/fixedLength/fixedLength.module.js"></script>
+         <script src="app/core/fixedLength/fixedLength.filter.js"></script>
          
         
 

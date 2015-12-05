@@ -9,14 +9,13 @@
   var vm = this;
   vm.boardHeight = 9;
   vm.boardWidth = 9;
+  vm.numberOfMines = 10;
   vm.mineCordinates = [];
 
 
 
   
-  function _init() {
-   ;
-  }
+  
 
 
   vm.handleClick = function(x, y) {
@@ -94,7 +93,7 @@
   vm.generateMap = function() {
        
 
-       randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, 10)
+       randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, vm.numberOfMines)
       .then(function(result) {
          resetBoard();
         vm.mineCordinates = result.data.result.random.data;
