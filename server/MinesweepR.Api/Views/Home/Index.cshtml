@@ -19,14 +19,14 @@
 {
 
     <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <script type="text/javascript" src="http://localhost/MinesweepR.Api/signalr/hubs"> </script>
+    <script type="text/javascript" src="~/signalr/hubs"> </script>
 
 
     <script type="text/javascript">
         var mainHub;
         var bytes;
         $(function () {
-            $.connection.hub.url = 'http://localhost/MinesweepR.Api/signalr/hubs';
+            $.connection.hub.url = '@Url.Content("~/signalr/hubs")';
             $.connection.hub.qs = { 'GroupName': 'group' };
             $.connection.hub.start().done(function (parameters) { });
             mainHub = $.connection.gameHub;
