@@ -25,6 +25,15 @@ namespace MinesweepR.Api.Hubs
             Clients.All.hello();
         }
 
+        public void SendBoard(string groupName, Board board)
+        {
+            foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower()
+                && a.ConnectionId != Context.ConnectionId))
+            {
+                Clients.Client(objHub.ConnectionId).updateBoard(board);
+            }
+        }
+
         public void PingMotherFlipper (string groupName, string message)
         {
             foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower() 
