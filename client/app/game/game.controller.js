@@ -10,6 +10,8 @@
   vm.boardHeight = 9;
   vm.boardWidth = 9;
   vm.mineCordinates = '1,5,20,21,22,14,10,40,81';
+  vm.numberOFMines = 10;
+  
   vm.title = "Hello world";
 
 
