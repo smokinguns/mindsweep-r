@@ -1,9 +1,9 @@
  <h1>minesweep-r</h1>
   <div >
-    <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;">
+    <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;height:500px">
 
     <div class="status">
-      <div style="position: relative;padding: 3px 5px 0px 5px;margin-bottom: 6px;border-top: 2px solid #777;border-left: 2px solid #777;border-bottom: 2px solid #fcfcfc;border-right: 2px solid #fcfcfc;width:144px">
+      <div style="position: relative;padding: 3px 5px 0px 5px;margin-bottom: 6px;border-top: 2px solid #777;border-left: 2px solid #777;border-bottom: 2px solid #fcfcfc;border-right: 2px solid #fcfcfc;">
         <div class="mines">
           <div style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red">{{gameCtrl.numberOfMines | fixedLength:3}}</div>
         </div>
@@ -14,17 +14,21 @@
      
     </div>
     <div class="gameboard">
-      <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;">
+      <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;400px">
         <div style="clear:left" ng-repeat="pieceY in gameCtrl.gameBoard">
-          <div style=" float:left;height:16px;width:16px;" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
-            <div ng-show="!pieceX.clicked" style="position:absolute; height:16px;width:16px;background-image:url('https://raw.githubusercontent.com/donaldali/odin-js-jquery/master/minesweeper/assets/images/board/blank.gif');">
+          <div style=" float:left;height:40px;width:40px;text-align: center;vertical-align: middle;line-height:40px;" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
+            <div ng-show="!pieceX.clicked" class="game-tile" style="position:absolute; height:40px;width:40px;">
 
             </div>
-            <span ng-show="pieceX.numberOfSurroundingMines > 0">
+            <span style="display:inline-block;border:1px solid gray;width:40px" ng-show="pieceX.numberOfSurroundingMines > 0">
             {{pieceX.numberOfSurroundingMines}}
-            
+           
           </span>
-            <i ng-show="pieceX.hasMine" class="fa fa-bomb"></i>
+          <span style="display:inline-block;border:1px solid gray;width:40px" ng-show="pieceX.numberOfSurroundingMines <=0 && !pieceX.hasMine ">
+           
+           &nbsp;
+          </span>
+            <i ng-show="pieceX.hasMine" style="display:inline-block;border:1px solid gray;text-align: center;vertical-align: middle;line-height:40px;width:40px;"  class="fa fa-bomb"></i>
           </div>
         </div>
 
