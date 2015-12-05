@@ -12,6 +12,10 @@
         <ul id="messages">
 
         </ul>
+
+        <ul id="board">
+
+        </ul>
     </div>
 </div>
 
@@ -27,9 +31,9 @@
         var bytes;
         $(function () {
             $.connection.hub.url = '@Url.Content("~/signalr/hubs")';
+            // Initial properties required to establish connection
             $.connection.hub.qs = { 'GroupName': 'group' };
             $.connection.hub.start().done(function (parameters) { });
-            mainHub = $.connection.gameHub;
         });
 
         $(window).on('beforeunload', function () {
@@ -37,8 +41,23 @@
         });
 
         $("#btnPing").on("click", function () {
-            mainHub.server.pingMotherFlipper("group", $("#txtMessage").val());
+            // $.connection.gameHub.server.pingMotherFlipper("group", $("#txtMessage").val());
+            sendBoard();
         });
+
+        function sendBoard() {
+            var board=new Object();
+            var coordinates=["10", "35", "50", "65"];
+            board.height="9";
+            board.weight="9";
+            board.mineCoordinates=coordinates;
+            board.lastPlayedPosition="5";
+
+            $.connection.gameHub.server.sendBoard("group", board);
+        }
+        $.connection.gameHub.client.updateBoard = function (board) {
+            $("#board").append('<li>' + board.Height + '</li>');
+        };
 
         $.connection.gameHub.client.pingingMotherFlipper = function (message) {
             $("#messages").append('<li>' + message + '</li>');
