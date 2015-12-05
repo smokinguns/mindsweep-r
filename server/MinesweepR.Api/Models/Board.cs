@@ -11,6 +11,8 @@ namespace MinesweepR.Api.Models
 
         public string Weight { get; set; }
 
-        public string MinePositions { get; set; }
+        public List<String> MineCoordinates { get; set; }
+
+        public string LastPlayedPosition { get; set; }
     }
 }
