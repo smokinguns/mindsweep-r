@@ -96,7 +96,7 @@
        randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, vm.numberOfMines)
       .then(function(result) {
          resetBoard();
-        vm.mineCordinates = result.data.result.random.data;
+        vm.mineCordinates = result.data;
             // var mineCordinates = vm.mineCordinates.split(',');
         for (var n = 0; n < vm.mineCordinates.length; n++) {
            var cord = getCordinates(vm.mineCordinates[n], vm.boardWidth, vm.boardHeight);

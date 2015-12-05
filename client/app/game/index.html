@@ -16,7 +16,7 @@
     <div class="gameboard">
       <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;400px">
         <div style="clear:left" ng-repeat="pieceY in gameCtrl.gameBoard">
-          <div style=" float:left;height:40px;width:40px;text-align: center;vertical-align: middle;line-height:40px;" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
+          <div style="position:relative; float:left;height:40px;width:40px;text-align: center;vertical-align: middle;line-height:40px;" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
             <div ng-show="!pieceX.clicked" class="game-tile" style="position:absolute; height:40px;width:40px;">
 
             </div>
@@ -32,7 +32,7 @@
           </div>
         </div>
 
-
+        <div style="clear:both"></div>
 
 
 

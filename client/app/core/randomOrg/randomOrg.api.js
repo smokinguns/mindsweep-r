@@ -14,27 +14,14 @@
         
         function getRandomNumbers(min, max, numberOfRandoms)
         {
-            var xsrf = ({
-                'jsonrpc': '2.0',
-                'method': 'generateIntegers',
-                'params': {
-                'apiKey': 'd2319b89-8389-4d24-b1eb-4dbd80009153',
-                'n': numberOfRandoms,
-                'min': min,
-                'max': max,
-                'replacement': false,
-                'base': 10
-                },
-                'id': 27846
-            });
-            
             return $http({
-                url: 'https://cors-anywhere.herokuapp.com/https://api.random.org/json-rpc/1/invoke',
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json-rpc'
-                },
-                data: xsrf
+                url: 'http://192.168.1.18/MinesweepR.Api/api/MineCordinates',
+                method: 'GET',
+                params:{
+                  count:numberOfRandoms,
+                  min:min,
+                  max:max  
+                }
             });
         }
         

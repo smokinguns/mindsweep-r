@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace MinesweepR.Api.Controllers
 {
-    public class ValuesController : ApiController
+    public class MineCordinatesController : ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
@@ -16,9 +16,10 @@ namespace MinesweepR.Api.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public int[] Get(int count,int min, int max)
         {
-            return "value";
+            return new org.random.JSONRPC.RandomJSONRPC("d2319b89-8389-4d24-b1eb-4dbd80009153").GenerateIntegers(count, min, max);
+           
         }
 
         // POST api/values
