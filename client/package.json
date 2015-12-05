@@ -1,0 +1,26 @@
+{
+  "name": "client",
+  "version": "0.0.0",
+  "description": "minesweep-r client interface",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-bootstrap": "^0.12.2",
+    "angular-ui-router": "^0.2.15",
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smokinguns/mindsweep-r"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/smokinguns/mindsweep-r/issues"
+  },
+  "homepage": "https://github.com/smokinguns/mindsweep-r"
+}
