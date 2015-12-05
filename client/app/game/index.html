@@ -1,5 +1,5 @@
  <h1>minesweep-r</h1>
-  <div ng-controller="GameController as gameCtrl">
+  <div >
     <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;">
 
     <div class="status">
@@ -50,12 +50,5 @@
           <input type="text" ng-model="gameCtrl.boardWidth" />
         </label>
       </div>
-      <div>
-        <label>Mine Position(s) comma seperated
-          <input type="text" ng-model="gameCtrl.mineCordinates" />
-        </label>
-      </div>
-      <div>
-        <button ng-click="gameCtrl.generateMap()">generate board</button>
-      </div>
+     
   </div>

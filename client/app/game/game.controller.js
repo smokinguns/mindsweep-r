@@ -10,18 +10,12 @@
   vm.boardHeight = 9;
   vm.boardWidth = 9;
   vm.mineCordinates = [];
-  vm.title = "Hello world";
 
-  _init();
+
+
   
   function _init() {
-    randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, 10)
-      .then(function(result) {
-        vm.mineCordinates = result.data.result.random.data;
-      })
-      .catch(function(reason) {
-        console.debug(reason);
-      });
+   ;
   }
 
 
@@ -98,22 +92,32 @@
 
 
   vm.generateMap = function() {
-    resetBoard();
+       
 
-    // var mineCordinates = vm.mineCordinates.split(',');
-    for (var n = 0; n < vm.mineCordinates.length; n++) {
-      var cord = getCordinates(vm.mineCordinates[n], vm.boardWidth, vm.boardHeight);
-      vm.gameBoard[cord.y][cord.x].hasMine = true;
+       randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, 10)
+      .then(function(result) {
+         resetBoard();
+        vm.mineCordinates = result.data.result.random.data;
+            // var mineCordinates = vm.mineCordinates.split(',');
+        for (var n = 0; n < vm.mineCordinates.length; n++) {
+           var cord = getCordinates(vm.mineCordinates[n], vm.boardWidth, vm.boardHeight);
+          vm.gameBoard[cord.y][cord.x].hasMine = true;
 
-    }
+         }
 
 
 
-    for (var y = 0; y < vm.boardHeight; y++) {
-      for (var x = 0; x < vm.boardWidth; x++) {
-        vm.gameBoard[y][x].numberOfSurroundingMines = numberOfSurroundingMines(vm.gameBoard, x, y);
-      }
-    }
+        for (var y = 0; y < vm.boardHeight; y++) {
+          for (var x = 0; x < vm.boardWidth; x++) {
+            vm.gameBoard[y][x].numberOfSurroundingMines = numberOfSurroundingMines(vm.gameBoard, x, y);
+           }
+        }
+      })
+      .catch(function(reason) {
+        console.debug(reason);
+      })
+
+
 
 
   }
