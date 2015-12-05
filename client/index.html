@@ -19,32 +19,14 @@
         <script src="app/game/game.module.js"></script>
          <script src="app/game/game.routes.js"></script>
          <script src="app/game/game.controller.js"></script>
-<script src="node_modules/lodash/index.js"></script>
+         <script src="node_modules/lodash/index.js"></script>
          
          <script src="app/core/randomOrg/randomOrg.module.js"></script>
          <script src="app/core/randomOrg/randomOrg.controller.js"></script>
          <script src="app/core/randomOrg/randomOrg.api.js"></script>
          
          
-         <div data-ng-controller="RandomOrgController as roc">
-            <div class="input-group">
-               <span class="input-group-addon" id="min-addon">Min</span>
-               <input type=text ng-model="roc.min" value="" class="form-control" aria-describedby="min-addon"/>
-            </div>
-            <div class="input-group">
-               <span class="input-group-addon" id="max-addon">Min</span>
-               <input type=text ng-model="roc.max" value="" class="form-control" aria-describedby="max-addon"/>
-            </div>
-            <div class="input-group">
-               <span class="input-group-addon" id="num-addon">Number of Random</span>
-               <input type=text ng-model="roc.numberOfRandoms" value="" class="form-control" aria-describedby="num-addon"/>
-            </div>
-            
-            <button class="btn" ng-click="roc.getRandomNumbers()">Generate Numbers</button>
-            <ul class="list-group">
-                <li ng-repeat="number in roc.randomNumbers">{{number}}<li>
-            </ul>
-         </div>
+        
 
    </body>  
 </html>

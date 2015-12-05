@@ -1,0 +1,22 @@
+{
+  "name": "minesweep-r",
+  "description": "classic minesweeper angular style",
+  "main": "index.js",
+  "authors": [
+    "bratleylower"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/smokinguns/mindsweep-r",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "fontawesome#~4.5.0"
+  }
+}

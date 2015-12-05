@@ -19,11 +19,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/smokinguns/mindsweep-r"
+    "url": "https://github.com/smokinguns/minesweep-r"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/smokinguns/mindsweep-r/issues"
+    "url": "https://github.com/smokinguns/minesweep-r/issues"
   },
-  "homepage": "https://github.com/smokinguns/mindsweep-r"
+  "homepage": "https://github.com/smokinguns/minesweep-r"
 }
