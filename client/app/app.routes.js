@@ -2,7 +2,7 @@
     angular.module('minesweep-r')
         .config(routeConfig);
     
-    routeConfig.$inject = ['$stateProvider'];
+    routeConfig.$inject = ['$stateProvider','$urlRouterProvider'];
     
     function routeConfig($stateProvider, $urlRouterProvider){
         // $stateProvider
@@ -12,5 +12,7 @@
         //         controller: 'HelloWorldController',
         //         controllerAs: 'ctrl'
         //     });
+        
+        $urlRouterProvider.otherwise('/game');
     }
 }());
