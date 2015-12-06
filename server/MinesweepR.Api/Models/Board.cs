@@ -7,12 +7,12 @@ namespace MinesweepR.Api.Models
 {
     public class Board
     {
-        public string Height { get; set; }
+        public int Height { get; set; }
 
-        public string Weight { get; set; }
+        public int Width { get; set; }
 
-        public List<String> MineCoordinates { get; set; }
+        public int[] MineCoordinates { get; set; }
 
-        public string LastPlayedPosition { get; set; }
+
     }
 }

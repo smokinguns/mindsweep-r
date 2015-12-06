@@ -15,7 +15,7 @@
         function getRandomNumbers(min, max, numberOfRandoms)
         {
             return $http({
-                url: 'http://192.168.1.18/MinesweepR.Api/api/MineCordinates',
+                url: 'http://api.minesweep-r.com/api/MineCordinates',
                 method: 'GET',
                 params:{
                   count:numberOfRandoms,

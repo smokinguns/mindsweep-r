@@ -24,7 +24,7 @@ namespace  MinesweepR.Api.Util
             };
 
             // loads the origins from AppSettings
-            string originsString = "http://localhost:8100,http://localhost:5000";
+            string originsString = "http://localhost:8100,http://localhost:5000,http://192.168.1.16:5000,http://minesweep-r.com,http://www.minesweep-r.com";
             if (!String.IsNullOrEmpty(originsString))
             {
                 foreach (var origin in originsString.Split(','))

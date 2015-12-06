@@ -2,24 +2,66 @@
     angular.module('minesweep-r.game')
         .controller('GameController', GameController);
         
-    GameController.$inject = ['randomOrgApi'];
+    GameController.$inject = ['randomOrgApi','$scope'];
         
-    function GameController(randomOrgApi) {
+    function GameController(randomOrgApi,$scope) {
 
   var vm = this;
   vm.boardHeight = 9;
   vm.boardWidth = 9;
   vm.numberOfMines = 10;
-  vm.mineCordinates = [];
+  vm.mineCoordinates = [];
 
 
+    $.connection.hub.url = 'http://192.168.1.18/MinesweepR.Api/signalr/hubs';
+            // Initial properties required to establish connection
+            $.connection.hub.qs = { 'GroupName': 'group' };
+              $.connection.gameHub.client.updateBoard = function (board) {
+                $scope.$apply(function(){
+                  resetBoard();
+                vm.mineCoordinates = board.MineCoordinates;
+               updateGameBoard();
+                });
+                
+             }
+             
 
+              $.connection.gameHub.client.receiveClick = function (x,y) {
+                $scope.$apply(function(){
+                checkPosition(x,y);
+                });
+                
+             }
+            $.connection.hub.start().then(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); 
+          
+            }
+              
+            );
   
-  
+      $(window).on('beforeunload', function () {
+            $.connection.hub.stop();
+        });
 
+   
+    vm.sendBoard=function() {
+            var board=new Object();
+           
+            board.height=vm.boardHeight;
+            board.width=vm.boardWidth;
+            board.mineCoordinates=vm.mineCoordinates;
+            
+
+            $.connection.gameHub.server.sendBoard("group", board);
+        }
 
   vm.handleClick = function(x, y) {
-    
+    $.connection.gameHub.server.sendClick("group", x,y);
+    checkPosition(x,y);
+
+  }
+
+
+  function checkPosition(x,y){
     if (x < 0 || y < 0 || x >= vm.boardWidth || y >= vm.boardHeight ) {
       return;
     } else {
@@ -59,16 +101,15 @@
      
         angular.forEach(stuff, function(value, key) {
        
-          if(value.x === 2 && value.y ===3){
-            console.debug('here');
-          }
-          vm.handleClick(value.x, value.y);
+        
+          checkPosition(value.x, value.y);
 
 
         });
      
     }
-
+    
+    
   }
 
   function resetBoard() {
@@ -96,10 +137,24 @@
        randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, vm.numberOfMines)
       .then(function(result) {
          resetBoard();
-        vm.mineCordinates = result.data;
+        vm.mineCoordinates = result.data;
+        updateGameBoard();
+        vm.sendBoard();
             // var mineCordinates = vm.mineCordinates.split(',');
-        for (var n = 0; n < vm.mineCordinates.length; n++) {
-           var cord = getCordinates(vm.mineCordinates[n], vm.boardWidth, vm.boardHeight);
+        
+      })
+      .catch(function(reason) {
+        console.debug(reason);
+      })
+
+
+
+
+  }
+
+  function updateGameBoard(){
+    for (var n = 0; n < vm.mineCoordinates.length; n++) {
+           var cord = getCordinates(vm.mineCoordinates[n], vm.boardWidth, vm.boardHeight);
           vm.gameBoard[cord.y][cord.x].hasMine = true;
 
          }
@@ -111,16 +166,7 @@
             vm.gameBoard[y][x].numberOfSurroundingMines = numberOfSurroundingMines(vm.gameBoard, x, y);
            }
         }
-      })
-      .catch(function(reason) {
-        console.debug(reason);
-      })
-
-
-
-
   }
-
   function getCordinates(val, width, height) {
     var y = Math.ceil(val / width);
     var x = (val % width);

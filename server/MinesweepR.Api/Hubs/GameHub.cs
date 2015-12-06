@@ -33,7 +33,14 @@ namespace MinesweepR.Api.Hubs
                 Clients.Client(objHub.ConnectionId).updateBoard(board);
             }
         }
-
+        public void SendClick(string groupName, int x, int y)
+        {
+            foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower()
+               && a.ConnectionId != Context.ConnectionId))
+            {
+                Clients.Client(objHub.ConnectionId).receiveClick(x,y);
+            }
+        }
         public void PingMotherFlipper (string groupName, string message)
         {
             foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower() 
