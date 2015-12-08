@@ -11,9 +11,9 @@
   vm.boardWidth = 9;
   vm.numberOfMines = 10;
   vm.mineCoordinates = [];
+  vm.loading = true;
 
-
-    $.connection.hub.url = 'http://192.168.1.18/MinesweepR.Api/signalr/hubs';
+    $.connection.hub.url = 'http://api.minesweep-r.com/signalr/hubs';
             // Initial properties required to establish connection
             $.connection.hub.qs = { 'GroupName': 'group' };
               $.connection.gameHub.client.updateBoard = function (board) {
@@ -33,7 +33,9 @@
                 
              }
             $.connection.hub.start().then(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); 
-          
+                $scope.$apply(function(){
+                  vm.loading=false;
+                })
             }
               
             );
