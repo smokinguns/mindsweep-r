@@ -18,7 +18,7 @@ namespace MinesweepR.Api.Controllers
         // GET api/values/5
         public int[] Get(int count,int min, int max)
         {
-            return new org.random.JSONRPC.RandomJSONRPC("d2319b89-8389-4d24-b1eb-4dbd80009153").GenerateIntegers(count, min, max);
+            return new org.random.JSONRPC.RandomJSONRPC("d2319b89-8389-4d24-b1eb-4dbd80009153").GenerateIntegers(count, min, max,false);
            
         }
 
