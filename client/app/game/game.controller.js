@@ -57,8 +57,15 @@
         }
 
   vm.handleClick = function(x, y) {
-    $.connection.gameHub.server.sendClick("group", x,y);
-    checkPosition(x,y);
+    $.connection.hub.start().then(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); 
+                
+                   $.connection.gameHub.server.sendClick("group", x,y);
+                    checkPosition(x,y);
+                
+            }
+            
+  );
+  
 
   }
 
