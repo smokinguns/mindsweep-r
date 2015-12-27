@@ -18,6 +18,7 @@ using MinesweepR.Api.Util;
 using Newtonsoft.Json;
 using MinesweepR.Api.Controllers;
 using MinesweepR.Api.Service;
+
 [assembly: OwinStartup(typeof(MinesweepR.Api.Startup))]
 
 namespace MinesweepR.Api
@@ -37,7 +38,8 @@ namespace MinesweepR.Api
 
             app.Map("/signalr", map =>
             {
-               
+                // Turn cross domain on 
+       
                 // Setup the CORS middleware to run before SignalR.
                 // By default this will allow all origins. You can 
                 // configure the set of origins and/or http verbs by
@@ -64,15 +66,15 @@ namespace MinesweepR.Api
 
             var container = new UnityContainer();
 
-            var memconfig = new MembershipRebootConfiguration();
-            memconfig.PasswordHashingIterationCount = 50000;
-            memconfig.MultiTenant = false;
+            //var memconfig = new MembershipRebootConfiguration();
+            //memconfig.PasswordHashingIterationCount = 50000;
+            //memconfig.MultiTenant = false;
 
-            container.RegisterType<UserController>(new InjectionFactory(c => (new UserController(new UserAccountService(memconfig, new DefaultUserAccountRepository(new DefaultMembershipRebootDatabase("MembershipReboot")))))));
+            //container.RegisterType<UserController>(new InjectionFactory(c => (new UserController(new UserAccountService(memconfig, new DefaultUserAccountRepository(new DefaultMembershipRebootDatabase("MembershipReboot")))))));
             container.RegisterType<GameBoardController>(new InjectionFactory(c => new GameBoardController(new GameBoardService())));
-            container.RegisterType<PlayersController>(new InjectionFactory(c => new PlayersController(new PlayerService())));
+            container.RegisterType<PlayersController>(new InjectionFactory(c => new PlayersController(new UserService())));
             container.RegisterType<GamesController>(new InjectionFactory(c => new GamesController(new GameService())));
- 
+            
             config.DependencyResolver = new UnityResolver(container);
             var cors = new EnableCorsAppSettingsAttribute("");
             config.EnableCors(cors);

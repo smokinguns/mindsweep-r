@@ -15,18 +15,13 @@ namespace MinesweepR.Api.Service
                 Games = new List<Game>();
             }
         }
-        public Game Add(Player player, string gameId, GameBoardPosition[,] gameBoard)
+        public Game Add(Player player1, Player player2, string gameId,GameBoardPosition[,] gameBoard)
         {
-            var game = new Game() { GameId = gameId, Player1 = player, GameBoard = gameBoard };
+            var game = new Game() { GameId = gameId, Player1 = player1, Player2=player2, GameBoard = gameBoard };
             Games.Add(game);
             return game;
         }
-        public void Join(Player player, Game game)
-        {
-            game.Player2 = player;
-        }
-
-
+       
         public IEnumerable<Game> Get()
         {
             return Games;
@@ -35,6 +30,11 @@ namespace MinesweepR.Api.Service
         public Game Get(string gameId)
         {
             return Games.FirstOrDefault(g=>g.GameId == gameId);
+        }
+
+        public void Delete()
+        {
+            Games.Clear();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using BrockAllen.MembershipReboot;
 using MinesweepR.Api.Models;
-using BrockAllen.MembershipReboot;
+
 using BrockAllen.MembershipReboot.Helpers;
 using BrockAllen.MembershipReboot.Ef;
 using System.Data.Entity;
