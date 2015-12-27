@@ -8,10 +8,10 @@
         <div class="mines">
           <div style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red">{{gameCtrl.numberOfMines | fixedLength:3}}</div>
         </div>
-         <div class="face" ng-click="gameCtrl.generateMap()">
+         <div class="face" ng-click="gameCtrl.resetGameBoard()">
         <img src="/images/facesmile.gif">
       </div>
-       <timer style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red" interval="1000" countdown="100">{{countdown}}</timer>
+       <timer style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red" interval="1000" countdown="100">{{countdown | fixedLength:3}}</timer>
       </div>
      
     </div>
@@ -60,6 +60,31 @@
         <label>Number Of Mines
           <input type="text" ng-model="gameCtrl.numberOfMines" />
         </label>
+        
+      </div>
+        <div>
+       <label>
+         Player Name
+       </label>
+        <label>Player Name
+          <input type="text" ng-model="gameCtrl.playerName" />
+           <button ng-click="gameCtrl.login()">Login</button>
+        </label>
+       
+        <label>Game Id
+          <input type="text" ng-model="gameCtrl.gameId" />
+        </label>
+        
+      </div>
+      <div>
+        <ul>
+          <li ng-repeat="player in gameCtrl.players">{{player.playerName}}<button ng-disabled="gameCtrl.playerName === player.playerName" ng-click="gameCtrl.joinGame()">Challenge</button></li>
+        
+        </ul>
+        <label>Players
+         {{gameCtrl.players}}
+        </label>
+        
       </div>
   </div>
  

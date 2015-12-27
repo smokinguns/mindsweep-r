@@ -2,73 +2,44 @@
     angular.module('minesweep-r.game')
         .controller('GameController', GameController);
         
-    GameController.$inject = ['randomOrgApi','$scope'];
+    GameController.$inject = ['Api','Hub','$rootScope'];
         
-    function GameController(randomOrgApi,$scope) {
+    function GameController(api,Hub, $rootScope) {
 
   var vm = this;
   vm.boardHeight = 9;
   vm.boardWidth = 9;
   vm.numberOfMines = 10;
+  vm.gameId = "aaaaaa";
   vm.mineCoordinates = [];
   vm.loading = true;
-
-    $.connection.hub.url = 'http://api.minesweep-r.com/signalr/hubs';
-            // Initial properties required to establish connection
-            $.connection.hub.qs = { 'GroupName': 'group' };
-              $.connection.gameHub.client.updateBoard = function (board) {
-                $scope.$apply(function(){
-                  resetBoard();
-                vm.mineCoordinates = board.MineCoordinates;
-               updateGameBoard();
-                });
-                
-             }
-             
-
-              $.connection.gameHub.client.receiveClick = function (x,y) {
-                $scope.$apply(function(){
-                checkPosition(x,y);
-                });
-                
-             }
-            $.connection.hub.start().then(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); 
-                $scope.$apply(function(){
-                  vm.loading=false;
-                })
-            }
-              
-            );
-  
-      $(window).on('beforeunload', function () {
-            $.connection.hub.stop();
-        });
-
-   
-    vm.sendBoard=function() {
-            var board=new Object();
-           
-            board.height=vm.boardHeight;
-            board.width=vm.boardWidth;
-            board.mineCoordinates=vm.mineCoordinates;
-            
-
-            $.connection.gameHub.server.sendBoard("group", board);
-        }
-
-  vm.handleClick = function(x, y) {
-    $.connection.hub.start().then(function(){ console.log('Now connected, connection ID=' + $.connection.hub.id); 
-                
-                   $.connection.gameHub.server.sendClick("group", x,y);
-                    checkPosition(x,y);
-                
-            }
-            
-  );
-  
-
+  vm.players = [];
+  vm.playerName = "";
+  vm.handleClick = handleClick;
+  vm.resetGameBoard = resetGameBoard;
+  vm.joinGame = joinGame;
+  vm.login = login;
+  function handleClick(x, y){
+     checkPosition(x,y);
   }
-
+  function joinGame(){
+    hub.joinGame(vm.gameId); //Calling a server method
+  }
+  
+  function login(){
+    hub.login(vm.playerName)
+  }
+  function resetGameBoard(){
+      
+  }
+  
+  function init(){
+    vm.loading = false;
+    api.getPlayers().then(function(players){
+      vm.players = players;
+    });
+     //resetGameBoard();
+  }
 
   function checkPosition(x,y){
     if (x < 0 || y < 0 || x >= vm.boardWidth || y >= vm.boardHeight ) {
@@ -121,96 +92,72 @@
     
   }
 
-  function resetBoard() {
+  
+  //declaring the hub connection
+    var hub = new Hub('GameHub', {
 
-    vm.gameBoard = new Array(vm.boardHeight);
-    for (var y = 0; y < vm.boardHeight; y++) {
-      vm.gameBoard[y] = new Array(vm.boardWidth);
-      for (var x = 0; x < vm.boardWidth; x++) {
-        vm.gameBoard[y][x] = {
-          hasMine: false,
-          numberOfSurroundingMines: -1,
-          positionX: x,
-          positionY: y,
-          clicked: false
-        }
-      }
-    }
+        //client side methods
+        listeners:{
+            'initBoard': function (board) {
+                
+                vm.gameBoard = board;
+                $rootScope.$apply();
+            },
+            'updatePlayers':function(players){
+              vm.players = players;
+              $rootScope.$apply();
+            }
+        },
 
-  }
+        //server side methods
+        methods: ['joinGame','login'],
 
-
-  vm.generateMap = function() {
-       
-
-       randomOrgApi.getRandomNumbers(1, vm.boardHeight * vm.boardWidth, vm.numberOfMines)
-      .then(function(result) {
-         resetBoard();
-        vm.mineCoordinates = result.data;
-        updateGameBoard();
-        vm.sendBoard();
-            // var mineCordinates = vm.mineCordinates.split(',');
+        //query params sent on initial connection
+        queryParams:{
+            
+        },
+        rootPath:'http://192.168.1.22/minesweepR.api/signalr/hubs',
         
-      })
-      .catch(function(reason) {
-        console.debug(reason);
-      })
 
+        //handle connection error
+        errorHandler: function(error){
+            console.error(error);
+        },
 
+        //specify a non default root
+        //rootPath: '/api
 
-
-  }
-
-  function updateGameBoard(){
-    for (var n = 0; n < vm.mineCoordinates.length; n++) {
-           var cord = getCordinates(vm.mineCoordinates[n], vm.boardWidth, vm.boardHeight);
-          vm.gameBoard[cord.y][cord.x].hasMine = true;
-
-         }
-
-
-
-        for (var y = 0; y < vm.boardHeight; y++) {
-          for (var x = 0; x < vm.boardWidth; x++) {
-            vm.gameBoard[y][x].numberOfSurroundingMines = numberOfSurroundingMines(vm.gameBoard, x, y);
-           }
+        stateChanged: function(state){
+            switch (state.newState) {
+                case $.signalR.connectionState.connecting:
+                    //your code here
+                    break;
+                case $.signalR.connectionState.connected:
+                    //your code here
+                    break;
+                case $.signalR.connectionState.reconnecting:
+                    //your code here
+                    break;
+                case $.signalR.connectionState.disconnected:
+                    //your code here
+                    break;
+            }
         }
+    });
+
+    
+    
+    
+    
+  
+  init();
+
+
+
+
+
   }
-  function getCordinates(val, width, height) {
-    var y = Math.ceil(val / width);
-    var x = (val % width);
 
-    return {
-      'x': (x > 0 ? x : width) - 1,
-      'y': y - 1
-    }
-  }
+  
 
-  function numberOfSurroundingMines(arry, startX, startY) {
-    console.debug('y + x' + startY + ':' + startX);
-    if (arry[startY][startX].hasMine) {
-      return 0;
-    }
-    var a = startX;
-    var b = startY;
-    startY--;
-    startX--;
-    var countOfMines = 0;
-    for (var y = startY; y < startY + 3; y++) {
-      for (var x = startX; x < startX + 3; x++) {
-        if (x >= 0 && y >= 0 && x < arry[0].length && y < arry.length && !(x == a && y == b)) {
-          console.debug('----y + x' + y + ':' + x + '-' + arry[y][x].hasMine);
-          if (arry[y][x].hasMine) {
-
-            countOfMines++;
-          }
-        }
-      }
-    }
-    console.debug('count' + countOfMines);
-
-
-    return countOfMines;
-  }
-}
 }());

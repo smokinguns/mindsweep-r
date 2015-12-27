@@ -7,10 +7,10 @@ namespace MinesweepR.Api.Models
 {
     public class Game
     {
-        public string ConnectionId { get; set; }
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
+        public string GameId { get; set; }
 
-        public string GroupName { get; set; }
-
-        public Board Board { get; set; }
+        public GameBoardPosition[,] GameBoard { get; set; } 
     }
 }

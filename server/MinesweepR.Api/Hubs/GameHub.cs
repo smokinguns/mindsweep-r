@@ -5,61 +5,64 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using MinesweepR.Api.Models;
 using System.Threading.Tasks;
-
+using MinesweepR.Api.Service;
 namespace MinesweepR.Api.Hubs
 {
     public class GameHub : Hub
     {
-        public static List<Game> GameData { get; set; }
+ 
 
-        public GameHub()
+
+        public void JoinGame(string gameId)
         {
-            if (GameData == null)
+            Action<GameBoardPosition[,]> sendBoard = (board) =>
             {
-                GameData = new List<Game>();
+                Clients.Client(Context.ConnectionId).initBoard(board); 
+            };
+            var gameService = new GameService();
+            var playerService = new PlayerService();
+            var player = playerService.Get(Context.ConnectionId);
+            var game = gameService.Get(gameId);
+            if (game == null)
+            {
+                var gameBoard = new GameBoardService().GenerateBoard(10, 10, 10);
+                game = gameService.Add(player, gameId, gameBoard); 
+                sendBoard(game.GameBoard);
+            }
+            else
+            {
+                if (game.Player2 == null)
+                {
+                    gameService.Join(player, game);
+                    
+                    sendBoard(game.GameBoard);
+                }
             }
         }
 
-        public void Hello()
+        public void Login(string playerName)
         {
-            Clients.All.hello();
-        }
+            var playerService = new PlayerService();
+            playerService.Add(new Player() { ConnectionId = Context.ConnectionId, PlayerName = playerName });
 
-        public void SendBoard(string groupName, Board board)
-        {
-            foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower()
-                && a.ConnectionId != Context.ConnectionId))
+            var players = playerService.Get();
+            foreach (var plyr in players )
             {
-                Clients.Client(objHub.ConnectionId).updateBoard(board);
+                Clients.Client(plyr.ConnectionId).updatePlayers(players); 
             }
         }
-        public void SendClick(string groupName, int x, int y)
-        {
-            foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower()
-               && a.ConnectionId != Context.ConnectionId))
-            {
-                Clients.Client(objHub.ConnectionId).receiveClick(x,y);
-            }
-        }
-        public void PingMotherFlipper (string groupName, string message)
-        {
-            foreach (var objHub in GameData.Where(a => a.GroupName.Trim().ToLower() == groupName.Trim().ToLower() 
-                && a.ConnectionId != Context.ConnectionId))
-            {
-                    Clients.Client(objHub.ConnectionId).pingingMotherFlipper(message);
-            }
-        }
-
+       
         public override Task OnConnected()
         {
             CheckConnection();
 
+            
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            GameData.Remove(GameData.FirstOrDefault(a => a.ConnectionId == Context.ConnectionId));
+           // GameData.Remove(GameData.FirstOrDefault(a => a.ConnectionId == Context.ConnectionId));
 
             return base.OnDisconnected(stopCalled);
         }
@@ -67,15 +70,13 @@ namespace MinesweepR.Api.Hubs
         public override Task OnReconnected()
         {
             CheckConnection();
+
             return base.OnReconnected();
         }
 
         private void CheckConnection()
         {
-            if (!GameData.Any(a => a.ConnectionId == Context.ConnectionId))
-            {
-                GameData.Add(new Game { ConnectionId = Context.ConnectionId, GroupName = Context.QueryString["GroupName"] });
-            }
+         
         }
     }
 }
