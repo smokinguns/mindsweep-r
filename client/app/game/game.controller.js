@@ -7,49 +7,71 @@
     function GameController(api,Hub, $rootScope) {
 
   var vm = this;
-  vm.boardHeight = 9;
-  vm.boardWidth = 9;
-  vm.numberOfMines = 10;
-  vm.gameId = "aaaaaa";
-  vm.mineCoordinates = [];
+
+  vm.loggedIn = false;
   vm.loading = true;
-  vm.players = [];
-  vm.playerName = "";
+  vm.onlineUsers = [];
+  vm.userName = "";
+  vm.player=null;
+  vm.opponent = null;
   vm.handleClick = handleClick;
-  vm.resetGameBoard = resetGameBoard;
-  vm.joinGame = joinGame;
+  vm.challengePlayer = challengePlayer;
+  vm.resetAllGames=resetAllGames;
+        
+        
+  vm.game = null;
   vm.login = login;
-  function handleClick(x, y){
+
+   function resetAllGames(){
+       api.reset().then(function(){
+          
+           vm.userName = "";
+           vm.player=null;
+            vm.opponent = null;
+            vm.game = null;
+           api.getPlayers().then(function(players){
+                vm.onlineUsers = players;
+            });
+       });
+   }     
+   function handleClick(x, y){
+     if(!vm.player.atBat){
+         return;
+     }
+     vm.player.atBat = false;
+     vm.opponent.atBat = true;
      checkPosition(x,y);
+     hub.advanceTurn(vm.game.gameId, vm.player.userName,x,y);
   }
-  function joinGame(){
-    hub.joinGame(vm.gameId); //Calling a server method
+  function challengePlayer(userName){
+      //(player1,player2)
+    
+    hub.startGame(vm.userName, userName); //Calling a server method
   }
   
   function login(){
-    hub.login(vm.playerName)
+    vm.loggedIn = true;
+    hub.login(vm.userName)
   }
-  function resetGameBoard(){
-      
-  }
+
   
   function init(){
     vm.loading = false;
     api.getPlayers().then(function(players){
-      vm.players = players;
+      vm.onlineUsers = players;
     });
      //resetGameBoard();
   }
 
   function checkPosition(x,y){
-    if (x < 0 || y < 0 || x >= vm.boardWidth || y >= vm.boardHeight ) {
+    if (x < 0 || y < 0 || x >= vm.game.boardWidth || y >= vm.game.boardHeight ) {
       return;
     } else {
-      if (vm.gameBoard[y][x] === undefined || vm.gameBoard[y][x].clicked === true) {
+      if (vm.game.gameBoard[y][x] === undefined || vm.game.gameBoard[y][x].clicked === true) {
         return;
       }
-      vm.gameBoard[y][x].clicked = true;
-      if(vm.gameBoard[y][x].numberOfSurroundingMines >0 || vm.gameBoard[y][x].hasMine){
+      vm.game.gameBoard[y][x].clicked = true;
+      if(vm.game.gameBoard[y][x].numberOfSurroundingMines >0 || vm.game.gameBoard[y][x].hasMine){
         return;
       }
       var stuff = [{
@@ -95,22 +117,34 @@
   
   //declaring the hub connection
     var hub = new Hub('GameHub', {
-
         //client side methods
         listeners:{
-            'initBoard': function (board) {
-                
-                vm.gameBoard = board;
-                $rootScope.$apply();
-            },
+            
             'updatePlayers':function(players){
-              vm.players = players;
+              vm.onlineUsers = players;
+              $rootScope.$apply();
+            },
+            'updateBoard':function(x,y){
+              checkPosition(x,y);
+              vm.player.atBat = true;
+              vm.opponent.atBat = false;
+              $rootScope.$apply();
+            },'acceptGame':function(game){
+              vm.game = game;
+              if(game.player1.userName == vm.userName){
+                vm.player = game.player1;
+                vm.opponent = game.player2;
+              }else{
+                vm.player = game.player2;
+                vm.opponent = game.player1;
+              }         
               $rootScope.$apply();
             }
+            
         },
 
         //server side methods
-        methods: ['joinGame','login'],
+        methods: ['startGame','login','advanceTurn'],
 
         //query params sent on initial connection
         queryParams:{

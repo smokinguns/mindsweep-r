@@ -1,24 +1,31 @@
- <h1>minesweep-r</h1>
-  <div ng-show="gameCtrl.loading">Please Wait Loading ...</div> 
-  <div  ng-hide="gameCtrl.loading">
-    <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;height:500px">
+<h1>minesweep-r</h1>
+
+<div ng-show="gameCtrl.game!==null">
+  <div>
+      {{gameCtrl.player.userName}} <span ng-show="gameCtrl.player.atBat" <i  class="fa fa-gamepad"></i>Mining</span> vs {{gameCtrl.opponent.userName}} <span ng-show="gameCtrl.opponent.atBat" > <i class="fa fa-gamepad"></i>Mining</span>
+</div>
+<div ng-show="gameCtrl.loading">Please Wait Loading ...</div>
+<div ng-hide="gameCtrl.loading">
+  <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;height:500px">
 
     <div class="status">
       <div style="position: relative;padding: 3px 5px 0px 5px;margin-bottom: 6px;border-top: 2px solid #777;border-left: 2px solid #777;border-bottom: 2px solid #fcfcfc;border-right: 2px solid #fcfcfc;">
         <div class="mines">
-          <div style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red">{{gameCtrl.numberOfMines | fixedLength:3}}</div>
+          <div style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red">{{gameCtrl.game.numberOfMines | fixedLength:3}}</div>
         </div>
-         <div class="face" ng-click="gameCtrl.resetGameBoard()">
-        <img src="/images/facesmile.gif">
+        <div class="face" ng-click="gameCtrl.resetGameBoard()">
+          <img src="/images/facesmile.gif">
+        </div>
+        <timer style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red" interval="1000"
+        countdown="100">{{countdown | fixedLength:3}}</timer>
       </div>
-       <timer style="background-color:black;display:inline-block;font-family:Digital;font-size:x-large;color:red" interval="1000" countdown="100">{{countdown | fixedLength:3}}</timer>
-      </div>
-     
+
     </div>
-    <div class="gameboard">
+    <div class="gameboard" ng-disabled="gameCtrl.onDeck">
       <div style="background-color: #c0c0c0;border-top: 2px solid #fcfcfc;border-left: 2px solid #fcfcfc;border-bottom: 2px solid #777;border-right: 2px solid #777;padding: 6px;400px">
-        <div style="clear:left" ng-repeat="pieceY in gameCtrl.gameBoard">
-          <div style="position:relative; float:left;height:40px;width:40px;text-align: center;vertical-align: middle;line-height:40px;" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
+        <div style="clear:left" ng-repeat="pieceY in gameCtrl.game.gameBoard">
+          <div style="position:relative; float:left;height:40px;width:40px;text-align: center;vertical-align: middle;line-height:40px;"
+          ng-disabled="gameCtrl.onDeck" ng-click="gameCtrl.handleClick(pieceX.positionX,pieceX.positionY)" ng-repeat="pieceX in pieceY">
             <div ng-show="!pieceX.clicked" class="game-tile" style="position:absolute; height:40px;width:40px;">
 
             </div>
@@ -26,65 +33,40 @@
             {{pieceX.numberOfSurroundingMines}}
            
           </span>
-          <span style="display:inline-block;border:1px solid gray;width:40px" ng-show="pieceX.numberOfSurroundingMines <=0 && !pieceX.hasMine ">
+            <span style="display:inline-block;border:1px solid gray;width:40px" ng-show="pieceX.numberOfSurroundingMines <=0 && !pieceX.hasMine ">
            
            &nbsp;
           </span>
-            <i ng-show="pieceX.hasMine" style="display:inline-block;border:1px solid gray;text-align: center;vertical-align: middle;line-height:40px;width:40px;"  class="fa fa-bomb"></i>
+            <i ng-show="pieceX.hasMine" style="display:inline-block;border:1px solid gray;text-align: center;vertical-align: middle;line-height:40px;width:40px;"
+            class="fa fa-bomb"></i>
           </div>
         </div>
 
         <div style="clear:both"></div>
-
-
-
-
-
       </div>
-
-     
     </div>
-    </div>
-
- <div style="clear:both">
-        <label>Height
-          <input type="text" ng-model="gameCtrl.boardHeight" id="height" />
-        </label>
-      </div>
-      <div>
-        <label>Width
-          <input type="text" ng-model="gameCtrl.boardWidth" />
-        </label>
-      </div>
-     <div>
-        <label>Number Of Mines
-          <input type="text" ng-model="gameCtrl.numberOfMines" />
-        </label>
-        
-      </div>
-        <div>
-       <label>
-         Player Name
-       </label>
-        <label>Player Name
-          <input type="text" ng-model="gameCtrl.playerName" />
-           <button ng-click="gameCtrl.login()">Login</button>
-        </label>
-       
-        <label>Game Id
-          <input type="text" ng-model="gameCtrl.gameId" />
-        </label>
-        
-      </div>
-      <div>
-        <ul>
-          <li ng-repeat="player in gameCtrl.players">{{player.playerName}}<button ng-disabled="gameCtrl.playerName === player.playerName" ng-click="gameCtrl.joinGame()">Challenge</button></li>
-        
-        </ul>
-        <label>Players
-         {{gameCtrl.players}}
-        </label>
-        
-      </div>
   </div>
- 
+</div>
+</div>
+<div style="clear:both">
+
+    <div>
+  
+      <label>User Name
+        <input type="text" ng-model="gameCtrl.userName" />
+        <button ng-click="gameCtrl.login()">Login</button>
+      </label>
+    </div>
+    <div>
+        
+      <ul ng-show="gameCtrl.loggedIn">
+        <li ng-repeat="onlineUser in gameCtrl.onlineUsers">{{onlineUser.userName}}
+          <button ng-hide="gameCtrl.userName === onlineUser.userName || onlineUser.gameInProgress" ng-click="gameCtrl.challengePlayer(onlineUser.userName)">Challenge</button>
+        </li>
+
+      </ul>
+     
+
+    </div>
+  </div>
+  <button ng-click="gameCtrl.resetAllGames()">Reset All</button>
