@@ -1,15 +1,11 @@
-
-    
- ;(function(){
+;(function() {
     'use strict';
-    
-    angular.module('minesweep-r.fixedLength')
-        .filter('fixedLength', FixedLengthFilter)
-        
 
-        
+    angular.module('minesweep-r.fixedLength')
+      .filter('fixedLength', FixedLengthFilter);
+
     function FixedLengthFilter() {
-      return function (n, len) {
+        return function (n, len) {
             var num = parseInt(n, 10);
             len = parseInt(len, 10);
             if (isNaN(num) || isNaN(len)) {

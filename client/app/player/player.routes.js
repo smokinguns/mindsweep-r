@@ -1,10 +1,10 @@
-;(function(){
+;(function() {
     angular.module('minesweep-r.player')
         .config(playerRouteConfig);
-        
+
     playerRouteConfig.$inject = ['$stateProvider'];
-        
-    function playerRouteConfig($stateProvider){
+
+    function playerRouteConfig($stateProvider) {
         $stateProvider
             .state('player', {
                 url: '/player',

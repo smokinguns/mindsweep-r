@@ -9,10 +9,20 @@
     "angular-bootstrap": "^0.12.2",
     "angular-ui-router": "^0.2.15",
     "bootstrap": "^3.3.6",
+    "del": "^2.2.0",
     "express": "^4.13.3",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-ftp": "^1.1.0",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
-    "logfmt": "^1.2.0"
+    "logfmt": "^1.2.0",
+    "yargs": "^3.31.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
