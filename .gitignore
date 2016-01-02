@@ -2,7 +2,7 @@
 *.suo
 *.user
 *.sln.docstates
-
+ftp.config.js
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
