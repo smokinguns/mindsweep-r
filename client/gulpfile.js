@@ -56,7 +56,7 @@ gulp.task('plato', function(done) {
     startPlatoVisualizer(done);
 });
 
-gulp.task('deploy', function () {
+gulp.task('deploy',['build'], function () {
     return gulp.src('build/**/*.*')
     .pipe($.ftp({
         host: ftpConfig.host,
