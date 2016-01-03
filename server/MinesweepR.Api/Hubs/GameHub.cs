@@ -10,45 +10,50 @@ namespace MinesweepR.Api.Hubs
 {
     public class GameHub : Hub
     {
- 
-
-
-        public void JoinGame(string gameId)
+        public static int GameId = 0;
+        public void AdvanceTurn(string gameId, string userName, int clickX, int clickY)
         {
-            Action<GameBoardPosition[,]> sendBoard = (board) =>
-            {
-                Clients.Client(Context.ConnectionId).initBoard(board); 
-            };
-            var gameService = new GameService();
-            var playerService = new PlayerService();
-            var player = playerService.Get(Context.ConnectionId);
-            var game = gameService.Get(gameId);
-            if (game == null)
-            {
-                var gameBoard = new GameBoardService().GenerateBoard(10, 10, 10);
-                game = gameService.Add(player, gameId, gameBoard); 
-                sendBoard(game.GameBoard);
-            }
-            else
-            {
-                if (game.Player2 == null)
-                {
-                    gameService.Join(player, game);
-                    
-                    sendBoard(game.GameBoard);
-                }
-            }
+            var game = new GameService().Get(gameId);
+            var player = game.Player1.UserName == userName ? game.Player2 : game.Player1;
+       
+            Clients.Client(player.ConnectionId).updateBoard(clickX, clickY);
         }
 
-        public void Login(string playerName)
+        public void startGame(string player1Name, string player2Name)
         {
-            var playerService = new PlayerService();
-            playerService.Add(new Player() { ConnectionId = Context.ConnectionId, PlayerName = playerName });
+           
+          
+            var gameBoardService = new GameBoardService();
+            var gameBoard = gameBoardService.GenerateBoard(10, 10, 10);
 
-            var players = playerService.Get();
-            foreach (var plyr in players )
+            var userService = new UserService();
+            
+            var user = userService.Get(player1Name);
+            user.GameInProgress = true;
+            var player1 = new Player() { ConnectionId = user.ConnectionId, UserName = user.UserName, AtBat = true };
+            
+            user = userService.Get(player2Name);
+            var player2 = new Player() { ConnectionId = user.ConnectionId, UserName = user.UserName };
+            user.GameInProgress = true;
+            var gameService = new GameService();
+            var game = gameService.Add(player1, player2, (GameId++).ToString(), gameBoard);
+            game.numberOfMines = 10;
+            game.boardHeight = 10;
+            game.boardWidth = 10;
+            Clients.Client(player1.ConnectionId).acceptGame(game);
+            Clients.Client(player2.ConnectionId).acceptGame(game);
+            Clients.All.updatePlayers(userService.Get());
+        }
+
+        public void Login(string userName)
+        {
+            var userService = new UserService();
+            userService.Add(new User() { ConnectionId = Context.ConnectionId, UserName = userName });
+
+            var onlineUsers = userService.Get();
+            foreach (var onlineUser in onlineUsers)
             {
-                Clients.Client(plyr.ConnectionId).updatePlayers(players); 
+                Clients.Client(onlineUser.ConnectionId).updatePlayers(onlineUsers); ; 
             }
         }
        

@@ -10,13 +10,13 @@ namespace MinesweepR.Api.Controllers
 {
     public class PlayersController : ApiController
     {
-        PlayerService _PlayerService;
-        public PlayersController(PlayerService playerService)
+        UserService _PlayerService;
+        public PlayersController(UserService playerService)
         {
             _PlayerService = playerService;
         }
 
-        public IEnumerable<Player> Get()
+        public IEnumerable<User> Get()
         {
            return _PlayerService.Get();
         }

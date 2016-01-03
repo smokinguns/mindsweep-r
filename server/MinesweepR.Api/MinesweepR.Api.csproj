@@ -67,6 +67,10 @@
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.2.2\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
@@ -207,8 +211,6 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Hubs\GameHub.cs" />
-    <Compile Include="Hubs\LoungeHub.cs" />
-    <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameBoardPosition.cs" />
     <Compile Include="Models\Player.cs" />
@@ -217,7 +219,7 @@
     <Compile Include="Service\GameBoardService.cs" />
     <Compile Include="Service\GamesController.cs" />
     <Compile Include="Service\GameService.cs" />
-    <Compile Include="Service\PlayerService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UntityResolver.cs" />
     <Compile Include="Util\EnableCorsAppSettingsAttribute.cs" />
