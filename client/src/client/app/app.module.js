@@ -5,6 +5,7 @@
                                   'minesweep-r.game',
                                   'minesweep-r.fixedLength',
                                   'timer',
-                                  'minesweep-r.api','SignalR'
+                                  'minesweep-r.api',
+                                  'SignalR'
                                 ]);
 }());

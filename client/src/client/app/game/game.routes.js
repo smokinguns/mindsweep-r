@@ -8,7 +8,7 @@
         $stateProvider
             .state('game', {
                 url: '/game',
-                templateUrl: '/app/game/index.html',
+                templateUrl: 'app/game/index.html',
                 controller: 'GameController',
                 controllerAs: 'gameCtrl'
             });

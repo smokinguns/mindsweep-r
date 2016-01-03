@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('minesweep-r.api')
-        .factory('Api', Api)
+        .factory('Api', Api);
 
     Api.$inject = ['$http','$q'];
 
@@ -11,7 +11,7 @@
         var api = {
             getPlayers : getPlayers,
             reset:reset
-        }
+        };
 
         function getPlayers() {
             var deferred = $q.defer();

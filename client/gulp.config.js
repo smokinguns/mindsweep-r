@@ -78,7 +78,7 @@ module.exports = function() {
         templateCache: {
             file: 'templates.js',
             options: {
-                module: 'app.core',
+                module: 'minesweep-r.api',
                 root: 'app/',
                 standAlone: false
             }

@@ -60,6 +60,7 @@
         }
 
         function checkPosition(x,y) {
+            /*jshint maxcomplexity:false */
             if (x < 0 || y < 0 || x >= vm.game.boardWidth || y >= vm.game.boardHeight) {
                 return;
             } else {
@@ -135,7 +136,7 @@
         //query params sent on initial connection
         queryParams:{
         },
-        rootPath:'http://192.168.1.22/minesweepR.api/signalr/hubs',
+        rootPath:'http://api.minesweep-r.com/signalr/hubs',
         //handle connection error
         errorHandler: function(error) {
             console.error(error);

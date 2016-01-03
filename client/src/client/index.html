@@ -1,0 +1,83 @@
+<html>
+   <head>
+       <title>Minesweep-r</title>
+       <!-- build:css styles/lib.css -->
+       <!-- bower:css -->
+       <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css" />
+       <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css" />
+       <!-- endbower -->
+       <!-- endbuild -->
+         <style>
+            @font-face { font-family: Digital; src: url('/custom-fonts/LCDATTPhoneTimeDate.ttf'); }
+
+        </style>
+        <!-- build:css styles/app.css-->
+        <!-- inject:css -->
+        <link rel="stylesheet" href="/.tmp/styles.css">
+        <!-- endinject -->
+        <!-- endbuild -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/images/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+        <link rel="manifest" href="/images/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+   </head>
+   <body data-ng-app="minesweep-r">
+       <ui-view>Waiting...</ui-view>
+
+
+
+    <!-- build:js js/lib.js -->
+      <!-- bower:js -->
+      <script src="/bower_components/jquery/dist/jquery.js"></script>
+      <script src="/bower_components/signalr/jquery.signalR.js"></script>
+      <script src="/bower_components/angular/angular.js"></script>
+      <script src="/bower_components/momentjs/moment.js"></script>
+      <script src="/bower_components/humanize-duration/humanize-duration.js"></script>
+      <script src="/bower_components/angular-timer/dist/angular-timer.js"></script>
+      <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+      <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="/bower_components/angular-signalr-hub/signalr-hub.js"></script>
+      <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+      <!-- endbower -->
+   <!-- endbuild -->
+
+      <!-- build:js js/app.js-->
+      <!-- inject:js -->
+      <script src="/src/client/app/app.module.js"></script>
+      <script src="/src/client/app/core/api/api.module.js"></script>
+      <script src="/src/client/app/core/fixedLength/fixedLength.module.js"></script>
+      <script src="/src/client/app/core/randomOrg/randomOrg.module.js"></script>
+      <script src="/src/client/app/game/game.module.js"></script>
+      <script src="/src/client/app/player/player.module.js"></script>
+      <script src="/src/client/app/app.controller.js"></script>
+      <script src="/src/client/app/app.routes.js"></script>
+      <script src="/src/client/app/core/api/api.service.js"></script>
+      <script src="/src/client/app/core/fixedLength/fixedLength.filter.js"></script>
+      <script src="/src/client/app/core/randomOrg/randomOrg.api.js"></script>
+      <script src="/src/client/app/core/randomOrg/randomOrg.controller.js"></script>
+      <script src="/src/client/app/game/game.controller.js"></script>
+      <script src="/src/client/app/game/game.routes.js"></script>
+      <script src="/src/client/app/player/player.controller.js"></script>
+      <script src="/src/client/app/player/player.routes.js"></script>
+      <script src="/src/client/app/player/player.service.js"></script>
+      <!-- endinject -->
+      <!-- inject:templates:js -->
+    <!-- endinject -->
+
+  <!-- endbuild -->
+      <script src="http://api.minesweep-r.com/signalr/hubs"></script>
+    </body>
+</html>

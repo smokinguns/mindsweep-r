@@ -1,6 +1,6 @@
 ;(function() {
     angular.module('minesweep-r.player')
-        .factory('playerApi', playerApiFactory)
+        .factory('playerApi', playerApiFactory);
 
     playerApiFactory.$inject = ['$q'];
 
